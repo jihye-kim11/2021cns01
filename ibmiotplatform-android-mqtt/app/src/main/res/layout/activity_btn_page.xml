@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/convey_btn"
+                android:id="@+id/classify"
                 android:layout_width="180dp"
                 android:layout_height="250dp"
                 android:layout_marginStart="16dp"
