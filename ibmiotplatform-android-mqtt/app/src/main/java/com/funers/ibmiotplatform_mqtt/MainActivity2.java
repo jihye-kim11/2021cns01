@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,12 +41,35 @@ public class MainActivity2 extends AppCompatActivity {
     protected RecyclerView event_log_view;
     protected RecyclerView.LayoutManager manager;
     protected SimpleAdapter adapter;
+    TextView total,yellow,green,blue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         setActionBar();
+
+        total = (TextView)findViewById(R.id.t_cnt);
+        yellow = (TextView)findViewById(R.id.y_cnt);
+        green = (TextView)findViewById(R.id.g_cnt);
+        blue = (TextView)findViewById(R.id.b_cnt);
+
+        //연결시 지울것
+        String cnts="3/2/1/0";
+        String[] cnt = cnts.split("/");
+
+        total.setText(cnt[0]);
+        yellow.setText(cnt[1]);
+        green.setText(cnt[2]);
+        blue.setText(cnt[3]);
+
+        JSONObject data = new JSONObject();
+        try {
+            data.put("state" , "request");
+            publishCommand("Raspberry_Pi","test2_pi","door", data);//test_pi
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         //mqtt client 생성 및 callBack 함수 작성
@@ -64,6 +88,14 @@ public class MainActivity2 extends AppCompatActivity {
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 JSONObject data = new JSONObject(new String(message.getPayload()));
                 adapter.addLog("topic: " + topic + ", data: " + data.toString());//event_id
+                //이부분에서 데이터 받아서 올리기
+                String cnts=data.toString();
+                String[] cnt = cnts.split("/");
+
+                total.setText(cnt[0]);
+                yellow.setText(cnt[1]);
+                green.setText(cnt[2]);
+                blue.setText(cnt[3]);
             }
 
             @Override

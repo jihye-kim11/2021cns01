@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setActionBar();
 
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////
         //mqtt client 생성 및 callBack 함수 작성
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 JSONObject data = new JSONObject(new String(message.getPayload()));
                 adapter.addLog("topic: " + topic + ", data: " + data.get("dist_cm"));
+
+
             }
 
             @Override
