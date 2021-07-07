@@ -39,14 +39,14 @@ while True:
         data_js = {flag : colortype}
         
         print(data_js)
-        client.publishEvent(eventId="transpartion", msgFormat="json", data=data_js, qos=0, onPublish=None)
+        client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
     
     elif flag == 'finishcomplete':
         #colortype = text[1].split('\n')[0]
         data_js = {flag}
         
         print(data_js)
-        client.publishEvent(eventId="transpartion", msgFormat="json", data=data_js, qos=0, onPublish=None)
+        client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
     
     
 # Disconnect
