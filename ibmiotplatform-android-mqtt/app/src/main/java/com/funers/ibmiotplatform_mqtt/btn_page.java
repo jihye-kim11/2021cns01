@@ -24,6 +24,16 @@ public class btn_page extends AppCompatActivity {
                 //  finish();
             }
         });
+
+        Button transit_page=(Button)findViewById(R.id.transit_btn);
+        transit_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(btn_page.this, MainActivity2.class);
+                startActivity(intent);
+                //  finish();
+            }
+        });
     }
 
     private void setActionBar(){

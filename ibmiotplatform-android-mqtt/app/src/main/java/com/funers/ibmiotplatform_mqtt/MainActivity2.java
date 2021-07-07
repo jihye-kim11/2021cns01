@@ -1,16 +1,13 @@
 package com.funers.ibmiotplatform_mqtt;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -20,8 +17,10 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
     private final String TAG = "IBMiotMqtt";
 
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main3);
         setActionBar();
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 JSONObject data = new JSONObject(new String(message.getPayload()));
-                adapter.addLog("topic: " + topic + ", data: " + data.get("dist_cm"));
+                adapter.addLog("topic: " + topic + ", data: " + data.toString());//event_id
             }
 
             @Override
@@ -80,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Log.i(TAG, "connect succeed");
-                    subscribeEvent("Raspberry_Pi","test2_pi", "distance");//test_pi
+                    subscribeEvent("Raspberry_Pi","OK_rasp");//test_pi
 //                    subscribeEvent("Raspberry_Pi","test_pi");
 //                    subscribeEvent("Raspberry_Pi");
                 }
@@ -95,12 +94,12 @@ public class MainActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////
         //MainActivity의 View 동작설정
         ////////////////////////////////////////////////////////////////////////////////////////////
-        event_log_view = (RecyclerView) findViewById(R.id.event_log_view);
+        event_log_view = (RecyclerView) findViewById(R.id.event_log_view1);
         adapter = new SimpleAdapter();
         manager = new LinearLayoutManager(this);
         event_log_view.setLayoutManager(manager);
         event_log_view.setAdapter(adapter);
-
+/*
         //button을 누르면 command publish
         openButton = findViewById(R.id.open);
         openButton.setOnClickListener(new View.OnClickListener() {
@@ -108,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("state" , "run");
-                    publishCommand("Raspberry_Pi","test2_pi","door", data);//test_pi
+                    data.put("state" , "open");
+                    publishCommand("Raspberry_Pi","OK_rasp","door", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -122,14 +121,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("state" , "stop");
-                    publishCommand("Raspberry_Pi","test2_pi","door", data);//test_pi
+                    data.put("state" , "close");
+                    publishCommand("Raspberry_Pi","OK_rasp","door", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+        */
     }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////
     //함수
     ////////////////////////////////////////////////////////////////////////////////////////////
