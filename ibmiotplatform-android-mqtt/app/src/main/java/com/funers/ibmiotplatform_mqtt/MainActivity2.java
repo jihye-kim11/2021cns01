@@ -75,10 +75,11 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 JSONObject data = new JSONObject(new String(message.getPayload()));
-                //adapter.addLog(data.toString());//event_id
-                adapter.addLog(data.get("id").toString()+" / "+data.get("colortype").toString()+" / "+data.get("starttime").toString()+" / "+data.get("endtime").toString()+" / ");//event_id
+               // adapter.addLog(data.toString());//event_id
+                adapter.addLog("     "+data.get("id").toString()+"  /  "+data.get("colortype").toString()+"  /  "+data.get("starttime").toString()+"  /  "+data.get("endtime").toString());//event_id
                 //이부분에서 데이터 받아서 올리기
-                total.setText( data.get("total").toString());
+                // total.setText( data.get("total").toString());
+                total.setText( "TRANS COMPLETE");
                 yellow.setText( data.get("yellow").toString());
                 green.setText( data.get("green").toString());
                 blue.setText( data.get("blue").toString());
@@ -142,6 +143,7 @@ public class MainActivity2 extends AppCompatActivity {
                 JSONObject data = new JSONObject();
                 try {
                     data.put("state" , "start");
+                    total.setText( "START");
                     publishCommand("Raspberry_Pi","test2_pi","robot", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -156,6 +158,8 @@ public class MainActivity2 extends AppCompatActivity {
                 JSONObject data = new JSONObject();
                 try {
                     data.put("state" , "back");
+                    total.setText( "BACK");
+
                     publishCommand("Raspberry_Pi","test2_pi","robot", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
