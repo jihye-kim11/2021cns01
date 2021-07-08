@@ -75,9 +75,9 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 JSONObject data = new JSONObject(new String(message.getPayload()));
-                adapter.addLog(data.toString());//event_id
+                //adapter.addLog(data.toString());//event_id
+                adapter.addLog(data.get("id").toString()+" / "+data.get("colortype").toString()+" / "+data.get("starttime").toString()+" / "+data.get("endtime").toString()+" / ");//event_id
                 //이부분에서 데이터 받아서 올리기
-
                 total.setText( data.get("total").toString());
                 yellow.setText( data.get("yellow").toString());
                 green.setText( data.get("green").toString());
@@ -113,11 +113,11 @@ public class MainActivity2 extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////
         //MainActivity의 View 동작설정
         ////////////////////////////////////////////////////////////////////////////////////////////
-    //    event_log_view = (RecyclerView) findViewById(R.id.event_log_view1);
+        event_log_view = (RecyclerView) findViewById(R.id.event_log_view1);
         adapter = new SimpleAdapter();
         manager = new LinearLayoutManager(this);
-  //      event_log_view.setLayoutManager(manager);
-  //      event_log_view.setAdapter(adapter);
+        event_log_view.setLayoutManager(manager);
+        event_log_view.setAdapter(adapter);
 
         //button을 누르면 command publish
 
