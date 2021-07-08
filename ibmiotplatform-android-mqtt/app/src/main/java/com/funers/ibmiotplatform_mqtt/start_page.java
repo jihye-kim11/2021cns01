@@ -20,7 +20,7 @@ public class start_page extends AppCompatActivity {
 
         timer.postDelayed(new Runnable(){ //2초후 쓰레드를 생성하는 postDelayed 메소드
             public void run(){
-                Intent intent = new Intent(start_page.this, btn_page.class);
+                Intent intent = new Intent(start_page.this,MainActivity2.class);
                 startActivity(intent); //다음 액티비티 이동
                 finish(); // 이 액티비티를 종료
             }

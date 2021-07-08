@@ -8,9 +8,9 @@
     tools:context=".start_page">
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="800dp"
+        android:layout_width="match_parent"
         android:layout_height="136dp"
-        android:src="@drawable/actionbar"
+        android:src="@drawable/main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

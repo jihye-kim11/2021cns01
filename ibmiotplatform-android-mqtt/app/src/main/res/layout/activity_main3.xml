@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <Space
             android:layout_width="match_parent"
@@ -22,36 +22,46 @@
             android:orientation="horizontal">
 
 
+            <Button
+                android:id="@+id/update_btn"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="update"
+                android:textSize="13dp"/>
+
             <Space
-                android:layout_width="wrap_content"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="완료 수량:"
-                android:textSize="40dp" />
+                android:text="STATE:"
+                android:textSize="30dp" />
 
             <TextView
                 android:id="@+id/t_cnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0"
-                android:textSize="40dp" />
+                android:text="READY"
+                android:textSize="30dp" />
 
             <Space
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
         </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="20dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,9 +78,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="운송 현황"
-                android:textSize="40dp" />
-
+                android:text=" ID  |  colortype | 운송 시작 시간 | 운송 완료 시간"
+                android:textSize="23dp"
+                android:textColor="#3F50AF"/>
 
 
             <Space
@@ -79,12 +89,27 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            app:layout_constraintVertical_bias="1.0">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/event_log_view1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </ScrollView>
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="20dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <Space
@@ -108,27 +133,6 @@
                 android:text="0"
                 android:textSize="40dp" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
             <ImageButton
                 android:id="@+id/imageButton2"
                 android:layout_width="wrap_content"
@@ -144,26 +148,6 @@
                 android:layout_weight="1"
                 android:text="0"
                 android:textSize="40dp" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/imageButton3"
@@ -186,13 +170,39 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/event_log_view1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
 
-        </androidx.recyclerview.widget.RecyclerView>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <Button
+                android:id="@+id/start_btn"
+                android:layout_width="180dp"
+                android:layout_height="80dp"
+                android:background="@drawable/start"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/back_btn"
+                android:layout_width="180dp"
+                android:layout_height="80dp"
+                android:background="@drawable/back"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
 
     </LinearLayout>
 
