@@ -36,8 +36,8 @@ public class MainActivity2 extends AppCompatActivity {
 
     protected MqttAndroidClient mqttAndroidClient;
 
-    protected Button openButton;
-    protected Button closeButton;
+    protected Button startButton;
+    protected Button backButton,updateButton;
     protected RecyclerView event_log_view;
     protected RecyclerView.LayoutManager manager;
     protected SimpleAdapter adapter;
@@ -54,22 +54,10 @@ public class MainActivity2 extends AppCompatActivity {
         green = (TextView)findViewById(R.id.g_cnt);
         blue = (TextView)findViewById(R.id.b_cnt);
 
-        //연결시 지울것
-        String cnts="3/2/1/0";
-        String[] cnt = cnts.split("/");
 
-        total.setText(cnt[0]);
-        yellow.setText(cnt[1]);
-        green.setText(cnt[2]);
-        blue.setText(cnt[3]);
 
-        JSONObject data = new JSONObject();
-        try {
-            data.put("state" , "request");
-            publishCommand("Raspberry_Pi","test2_pi","door", data);//test_pi
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+
 
         ////////////////////////////////////////////////////////////////////////////////////////////
         //mqtt client 생성 및 callBack 함수 작성
@@ -87,15 +75,14 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 JSONObject data = new JSONObject(new String(message.getPayload()));
-                adapter.addLog("topic: " + topic + ", data: " + data.toString());//event_id
+                adapter.addLog(data.toString());//event_id
                 //이부분에서 데이터 받아서 올리기
-                String cnts=data.toString();
-                String[] cnt = cnts.split("/");
 
-                total.setText(cnt[0]);
-                yellow.setText(cnt[1]);
-                green.setText(cnt[2]);
-                blue.setText(cnt[3]);
+                total.setText( data.get("total").toString());
+                yellow.setText( data.get("yellow").toString());
+                green.setText( data.get("green").toString());
+                blue.setText( data.get("blue").toString());
+
             }
 
             @Override
@@ -111,7 +98,7 @@ public class MainActivity2 extends AppCompatActivity {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Log.i(TAG, "connect succeed");
-                    subscribeEvent("Raspberry_Pi","OK_rasp");//test_pi
+                    subscribeEvent("Raspberry_Pi","test2_pi");//test_pi
 //                    subscribeEvent("Raspberry_Pi","test_pi");
 //                    subscribeEvent("Raspberry_Pi");
                 }
@@ -126,41 +113,56 @@ public class MainActivity2 extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////
         //MainActivity의 View 동작설정
         ////////////////////////////////////////////////////////////////////////////////////////////
-        event_log_view = (RecyclerView) findViewById(R.id.event_log_view1);
+    //    event_log_view = (RecyclerView) findViewById(R.id.event_log_view1);
         adapter = new SimpleAdapter();
         manager = new LinearLayoutManager(this);
-        event_log_view.setLayoutManager(manager);
-        event_log_view.setAdapter(adapter);
-/*
+  //      event_log_view.setLayoutManager(manager);
+  //      event_log_view.setAdapter(adapter);
+
         //button을 누르면 command publish
-        openButton = findViewById(R.id.open);
-        openButton.setOnClickListener(new View.OnClickListener() {
+
+        updateButton = findViewById(R.id.update_btn);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+        JSONObject data = new JSONObject();
+        try {
+            data.put("state" , "request");
+            publishCommand("Raspberry_Pi","test2_pi","update", data);//test_pi
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+            }});
+
+
+        startButton = findViewById(R.id.start_btn);
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("state" , "open");
-                    publishCommand("Raspberry_Pi","OK_rasp","door", data);//test_pi
+                    data.put("state" , "start");
+                    publishCommand("Raspberry_Pi","test2_pi","robot", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
         //button을 누르면 command publish
-        closeButton = findViewById(R.id.close);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        backButton = findViewById(R.id.back_btn);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("state" , "close");
-                    publishCommand("Raspberry_Pi","OK_rasp","door", data);//test_pi
+                    data.put("state" , "back");
+                    publishCommand("Raspberry_Pi","test2_pi","robot", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-        */
+
     }
 
 
