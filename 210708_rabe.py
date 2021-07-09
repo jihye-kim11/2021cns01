@@ -12,8 +12,13 @@ def myCommandCallback(cmd):
             global starttime, box_id
             box_id += 1
             starttime = cmd.timestamp.strftime('%H:%M:%S')
-            cur.execute('insert into transport_data values (?, ?, ?, ?)', (box_id, colortype, starttime, endtime))
+            cur.execute('insert into transport_data values (?, ?, ?, ?)', (box_id, colortype, starttime, ''))
             conn.commit()
+            data_js = {"total": result_list[0], "yellow": result_list[1], "green": result_list[2],
+                       "blue": result_list[3],
+                       "id": box_id, "colortype": colortype, "starttime": starttime, "endtime": ''}
+            print('robot start event published')
+            client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
         if cmd.data.get("state") == "back":
             ser.write(b"back")
 
@@ -75,20 +80,23 @@ while True:
     print('text: ', text)
 
     flag = text[0]
-    # if flag == 'trans_start':
-    #     colortype = text[1].split('\n')[0]
-    #     data_js = {flag : colortype}
-    #     print('data_js: ',data_js)
-    #     client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
+    if flag == 'trans_ready':
+        colortype = text[1].split('\n')[0]
+        result_list = colorcount(colortype)
+        data_js = {"total": result_list[0], "yellow": result_list[1], "green": result_list[2], "blue": result_list[3],
+                   "id": box_id, "colortype": colortype, "starttime": '', "endtime": ''}
+        print('trans_ready event published')
+        client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
     
     if flag == 'trans_complete': # 물류 배송이 다 끝나면 cloud로 PUBLISH
         colortype = text[1].split('\n')[0]
         result_list = colorcount(colortype)
         endtime = dt.datetime.now().strftime('%H:%M:%S')
         cur.execute('UPDATE transport_data SET endtime = ? WHERE id = ?', (endtime, box_id))
+        conn.commit()
         data_js = {"total": result_list[0], "yellow": result_list[1], "green": result_list[2], "blue": result_list[3],
                    "id": box_id, "colortype": colortype, "starttime": starttime, "endtime": endtime}
-        print('data_js: ', data_js)
+        print('trans_complete event published')
         client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
 
 # Disconnect
