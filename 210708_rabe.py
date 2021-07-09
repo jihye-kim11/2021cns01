@@ -12,6 +12,7 @@ def myCommandCallback(cmd):
             global starttime, box_id
             box_id += 1
             starttime = cmd.timestamp.strftime('%H:%M:%S')
+            # DB에 데이터 insert
             cur.execute('insert into transport_data values (?, ?, ?, ?)', (box_id, colortype, starttime, ''))
             conn.commit()
             data_js = {"total": result_list[0], "yellow": result_list[1], "green": result_list[2],
@@ -24,6 +25,7 @@ def myCommandCallback(cmd):
 
     if cmd.commandId == "update":
         if cmd.data.get("state") == "request":
+            data_js =
             client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
 
 
