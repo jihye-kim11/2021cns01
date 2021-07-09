@@ -75,14 +75,18 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 JSONObject data = new JSONObject(new String(message.getPayload()));
-               // adapter.addLog(data.toString());//event_id
-                adapter.addLog("     "+data.get("id").toString()+"  /  "+data.get("colortype").toString()+"  /  "+data.get("starttime").toString()+"  /  "+data.get("endtime").toString());//event_id
-                //이부분에서 데이터 받아서 올리기
-                // total.setText( data.get("total").toString());
-                total.setText( "TRANS COMPLETE");
-                yellow.setText( data.get("yellow").toString());
-                green.setText( data.get("green").toString());
-                blue.setText( data.get("blue").toString());
+                String input=data.get("command").toString();
+                if (input.equals("ready")){
+                    total.setText( "READY");
+                }
+                else {
+                    adapter.addLog("     " + data.get("id").toString() + "      " + data.get("colortype").toString() +
+                            "      " + data.get("starttime").toString() + "      " + data.get("endtime").toString());//event_id
+                    total.setText("TRANS COMPLETE");
+                    yellow.setText(data.get("yellow").toString());
+                    green.setText(data.get("green").toString());
+                    blue.setText(data.get("blue").toString());
+                }
 
             }
 
@@ -99,7 +103,7 @@ public class MainActivity2 extends AppCompatActivity {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Log.i(TAG, "connect succeed");
-                    subscribeEvent("Raspberry_Pi","test2_pi");//test_pi
+                    subscribeEvent("Raspberry_Pi","OK_rasp");//test_piOK_rasp
 //                    subscribeEvent("Raspberry_Pi","test_pi");
 //                    subscribeEvent("Raspberry_Pi");
                 }
@@ -119,7 +123,22 @@ public class MainActivity2 extends AppCompatActivity {
         manager = new LinearLayoutManager(this);
         event_log_view.setLayoutManager(manager);
         event_log_view.setAdapter(adapter);
-
+/*
+        adapter.addLog("    "+"001"+"        "+"yellow"+"           "+"16:22:33"+"            "+"16:24:22");//event_id
+        adapter.addLog("    "+"002"+"        "+"yellow"+"          "+"16:25:33"+"            "+"16:27:22");//event_id
+        adapter.addLog("    "+"003"+"        "+"green"+"           "+"16:28:33"+"            "+"16:30:22");//event_id
+        adapter.addLog("    "+"004"+"        "+"blue"+"             "+"16:31:33"+"            "+"16:33:22");//event_id
+        adapter.addLog("    "+"005"+"        "+"blue"+"             "+"16:34:33"+"            "+"16:36:22");//event_id
+        adapter.addLog("    "+"006"+"        "+"blue"+"             "+"16:37:33"+"            "+"16:39:22");//event_id
+        adapter.addLog("    "+"007"+"        "+"blue"+"             "+"16:40:33"+"            "+"16:41:22");//event_id
+        adapter.addLog("    "+"008"+"        "+"blue"+"             "+"16:43:33"+"            "+"16:45:22");//event_id
+        adapter.addLog("    "+"009"+"        "+"blue"+"             "+"16:46:33"+"            "+"16:48:22");//event_id
+        adapter.addLog("    "+"010"+"        "+"blue"+"             "+"16:49:33"+"            "+"16:51:22");//event_id
+        adapter.addLog("    "+"011"+"        "+"blue"+"             "+"16:52:33"+"            "+"16:54:22");//event_id
+        adapter.addLog("    "+"012"+"        "+"blue"+"             "+"16:55:33"+"            "+"16:57:22");//event_id
+        adapter.addLog("    "+"013"+"        "+"blue"+"             "+"16:58:33"+"            "+"17:00:22");//event_id
+        adapter.addLog("    "+"014"+"        "+"blue"+"             "+"17:01:33"+"            "+"17:03:22");//event_id
+*/
         //button을 누르면 command publish
 
         updateButton = findViewById(R.id.update_btn);
@@ -129,7 +148,7 @@ public class MainActivity2 extends AppCompatActivity {
         JSONObject data = new JSONObject();
         try {
             data.put("state" , "request");
-            publishCommand("Raspberry_Pi","test2_pi","update", data);//test_pi
+            publishCommand("Raspberry_Pi","OK_rasp","update", data);//test_pi
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -144,7 +163,7 @@ public class MainActivity2 extends AppCompatActivity {
                 try {
                     data.put("state" , "start");
                     total.setText( "START");
-                    publishCommand("Raspberry_Pi","test2_pi","robot", data);//test_pi
+                    publishCommand("Raspberry_Pi","OK_rasp","robot", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -160,7 +179,7 @@ public class MainActivity2 extends AppCompatActivity {
                     data.put("state" , "back");
                     total.setText( "BACK");
 
-                    publishCommand("Raspberry_Pi","test2_pi","robot", data);//test_pi
+                    publishCommand("Raspberry_Pi","OK_rasp","robot", data);//test_pi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
