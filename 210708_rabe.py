@@ -16,7 +16,7 @@ def myCommandCallback(cmd):
             conn.commit()
             data_js = {"total": result_list[0], "yellow": result_list[1], "green": result_list[2],
                        "blue": result_list[3],
-                       "id": box_id, "colortype": colortype, "starttime": starttime, "endtime": ''}
+                       "id": box_id, "colortype": colortype, "starttime": starttime, "endtime": '', "command": 'data'}
             print('robot start event published')
             client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
         if cmd.data.get("state") == "back":
@@ -84,7 +84,7 @@ while True:
         colortype = text[1].split('\n')[0]
         result_list = colorcount(colortype)
         data_js = {"total": result_list[0], "yellow": result_list[1], "green": result_list[2], "blue": result_list[3],
-                   "id": box_id, "colortype": colortype, "starttime": '', "endtime": ''}
+                   "id": box_id, "colortype": colortype, "starttime": '', "endtime": '', "command": 'ready'}
         print('trans_ready event published')
         client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
     
@@ -95,7 +95,7 @@ while True:
         cur.execute('UPDATE transport_data SET endtime = ? WHERE id = ?', (endtime, box_id))
         conn.commit()
         data_js = {"total": result_list[0], "yellow": result_list[1], "green": result_list[2], "blue": result_list[3],
-                   "id": box_id, "colortype": colortype, "starttime": starttime, "endtime": endtime}
+                   "id": box_id, "colortype": colortype, "starttime": starttime, "endtime": endtime, "command": 'data'}
         print('trans_complete event published')
         client.publishEvent(eventId="transportion", msgFormat="json", data=data_js, qos=0, onPublish=None)
 
