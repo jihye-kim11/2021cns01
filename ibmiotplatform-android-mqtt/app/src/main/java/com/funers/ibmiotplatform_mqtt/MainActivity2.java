@@ -29,7 +29,7 @@ public class MainActivity2 extends AppCompatActivity {
     final private String key = "a-wf2ir5-coftq4csoe";    //API key 변경하기
     final private String token = "w*hZkZeGO+_nW(TyAw";   //token 변경하기
 
-    final private String name = "test";
+    final private String name = "testttt";
     final private String appId = "a:"+orgId+":"+name;    //a:조직id:appId
     final private String url = "tcp://"+ orgId + ".messaging.internetofthings.ibmcloud.com:1883";
 
@@ -41,6 +41,7 @@ public class MainActivity2 extends AppCompatActivity {
     protected RecyclerView event_log_view;
     protected RecyclerView.LayoutManager manager;
     protected SimpleAdapter adapter;
+    protected MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
     TextView total,yellow,green,blue;
 
     @Override
@@ -62,15 +63,35 @@ public class MainActivity2 extends AppCompatActivity {
         ////////////////////////////////////////////////////////////////////////////////////////////
         //mqtt client 생성 및 callBack 함수 작성
         ////////////////////////////////////////////////////////////////////////////////////////////
-        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
+        //MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setUserName(key);
         mqttConnectOptions.setPassword(token.toCharArray());
         mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), url, appId);
         mqttAndroidClient.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
+
                 Log.i(TAG, "connection lost");
+                try {
+                    mqttAndroidClient.connect(mqttConnectOptions,null, new IMqttActionListener() {
+                        @Override
+                        public void onSuccess(IMqttToken asyncActionToken) {
+                            Log.i(TAG, "connect succeed");
+                            subscribeEvent("Raspberry_Pi","OK_rasp");//test_piOK_rasp
+//                    subscribeEvent("Raspberry_Pi","test_pi");
+//                    subscribeEvent("Raspberry_Pi");
+                        }
+                        @Override
+                        public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                            Log.i(TAG, "connect failed");
+                        }
+                    });
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+
             }
+
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
@@ -80,8 +101,8 @@ public class MainActivity2 extends AppCompatActivity {
                     total.setText( "READY");
                 }
                 else {
-                    adapter.addLog("     " + data.get("id").toString() + "      " + data.get("colortype").toString() +
-                            "      " + data.get("starttime").toString() + "      " + data.get("endtime").toString());//event_id
+                    adapter.addLog("        " + data.get("id").toString() + "          " + data.get("colortype").toString() +
+                            "          " + data.get("starttime").toString() + "          " + data.get("endtime").toString());//event_id
                     total.setText("TRANS COMPLETE");
                     yellow.setText(data.get("yellow").toString());
                     green.setText(data.get("green").toString());
@@ -140,7 +161,7 @@ public class MainActivity2 extends AppCompatActivity {
         adapter.addLog("    "+"014"+"        "+"blue"+"             "+"17:01:33"+"            "+"17:03:22");//event_id
 */
         //button을 누르면 command publish
-
+/*
         updateButton = findViewById(R.id.update_btn);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +175,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
             }});
 
-
+*/
         startButton = findViewById(R.id.start_btn);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
